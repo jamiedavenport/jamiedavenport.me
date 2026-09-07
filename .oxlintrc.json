@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "error",
+    "perf": "warn",
+    "suspicious": "warn"
+  },
+  "ignorePatterns": ["dist/**", ".astro/**", ".wrangler/**"],
+  "plugins": ["eslint", "typescript", "unicorn"],
+  "rules": {
+    "eslint/curly": ["error", "all"],
+    "eslint/no-underscore-dangle": "warn"
+  }
+}

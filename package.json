@@ -1,0 +1,39 @@
+{
+  "name": "jamiedavenport.me",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "format": "oxfmt --check .",
+    "format:fix": "oxfmt --write .",
+    "lint": "oxlint --type-aware --deny-warnings .",
+    "lint:fix": "oxlint --type-aware --deny-warnings --fix .",
+    "deploy": "bun run check && bun run build && wrangler deploy",
+    "deploy:check": "bun run check && bun run build && wrangler deploy --dry-run",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^7.3.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@tailwindcss/vite": "^4.3.3",
+    "oxfmt": "0.59.0",
+    "oxlint": "1.74.0",
+    "oxlint-tsgolint": "0.24.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.0",
+    "wrangler": "^4.129.1"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "packageManager": "bun@1.4.2",
+  "allowScripts": {
+    "esbuild": true
+  }
+}
