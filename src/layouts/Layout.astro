@@ -4,31 +4,139 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  editorial?: boolean;
+  noindex?: boolean;
 }
 
 const {
-  title = "Jamie Davenport",
-  description = "The personal site of Jamie Davenport.",
+  title = "Jamie Davenport | Software Engineer & Founder",
+  description = "Jamie Davenport is a software engineer and former VC-backed founder based in London. He runs JXD, building software for startups and enterprises.",
+  editorial = false,
+  noindex = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const homeURL = new URL("/", Astro.site).href;
+const portraitURL = new URL("/images/jamie.png", Astro.site).href;
+const portraitAlt = "3D cartoon portrait of Jamie Davenport wearing a Doncaster Rovers shirt";
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${homeURL}#website`,
+      url: homeURL,
+      name: "Jamie Davenport",
+      inLanguage: "en-GB",
+      publisher: { "@id": `${homeURL}#person` },
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${homeURL}#profile`,
+      url: homeURL,
+      name: title,
+      description,
+      inLanguage: "en-GB",
+      isPartOf: { "@id": `${homeURL}#website` },
+      mainEntity: { "@id": `${homeURL}#person` },
+    },
+    {
+      "@type": "Person",
+      "@id": `${homeURL}#person`,
+      name: "Jamie Davenport",
+      givenName: "Jamie",
+      familyName: "Davenport",
+      url: homeURL,
+      image: portraitURL,
+      description,
+      jobTitle: "Software engineer",
+      homeLocation: { "@type": "City", name: "London" },
+      worksFor: { "@type": "Organization", name: "JXD", url: "https://jxd.dev/" },
+      sameAs: [
+        "https://github.com/jamiedavenport",
+        "https://www.linkedin.com/in/jamie-davenport-uk/",
+      ],
+    },
+  ],
+};
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="author" content="Jamie Davenport" />
+    <meta name="theme-color" content="#fdfdfc" />
+    <meta name="color-scheme" content="light" />
+    <meta
+      name="robots"
+      content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large"}
+    />
+    {!noindex && (
+      <>
+        <link rel="canonical" href={canonicalURL} />
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+        <meta property="og:type" content="profile" />
+        <meta property="og:site_name" content="Jamie Davenport" />
+        <meta property="og:locale" content="en_GB" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:image" content={portraitURL} />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1254" />
+        <meta property="og:image:height" content="1254" />
+        <meta property="og:image:alt" content={portraitAlt} />
+        <meta property="profile:first_name" content="Jamie" />
+        <meta property="profile:last_name" content="Davenport" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={portraitURL} />
+        <meta name="twitter:image:alt" content={portraitAlt} />
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")}
+        />
+      </>
+    )}
+    <link
+      rel="icon"
+      type="image/png"
+      href="/images/jamie.png"
+    />
+    <link rel="apple-touch-icon" href="/images/jamie.png" />
+    <link
+      rel="preload"
+      href="/fonts/InterVariable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <title>{title}</title>
   </head>
-  <body class="min-h-dvh bg-stone-50 font-sans text-stone-900 antialiased">
+  <body class="min-h-dvh bg-white font-sans text-zinc-950 antialiased">
     <main
-      class="mx-auto flex min-h-dvh max-w-2xl flex-col justify-center px-6 py-20 sm:px-10"
+      class:list={[
+        "isolate",
+        !editorial && "mx-auto flex min-h-dvh max-w-2xl flex-col justify-center px-6 py-20 sm:px-10",
+      ]}
     >
       <slot />
     </main>
+    <script>
+      import { OpenPanel } from "@openpanel/web";
+
+      if (import.meta.env.PROD) {
+        void new OpenPanel({
+          clientId: "9b856dbc-28e4-492d-a7f7-9b6ca082d026",
+          trackScreenViews: true,
+          trackOutgoingLinks: true,
+        });
+      }
+    </script>
   </body>
 </html>
