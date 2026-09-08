@@ -1,0 +1,24 @@
+---
+import { author } from "@/lib/site";
+
+interface Props {
+  small?: boolean;
+}
+
+const { small = false } = Astro.props;
+---
+
+<img
+  class:list={[
+    "shrink-0 rounded-full border border-zinc-950/15 object-contain",
+    small ? "size-10" : "size-28",
+  ]}
+  src={author.portrait}
+  alt={small ? "" : author.portraitAlt}
+  width="1254"
+  height="1254"
+  fetchpriority="high"
+  data-portrait
+  transition:name="jamie-portrait"
+  transition:animate="initial"
+/>

@@ -1,0 +1,11 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"table">;
+---
+
+<div class="-mx-6 my-8 overflow-x-auto py-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-800" role="region" aria-label="Scrollable table" tabindex="0">
+  <div class="inline-block min-w-full px-6 align-middle">
+    <table {...Astro.props}><slot /></table>
+  </div>
+</div>

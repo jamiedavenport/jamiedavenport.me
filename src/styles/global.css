@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @font-face {
   font-family: InterVariable;
@@ -11,4 +12,50 @@
 @theme {
   --font-sans: InterVariable, ui-sans-serif, system-ui, sans-serif;
   --font-sans--font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+}
+
+@keyframes content-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes content-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+::view-transition-group(page-content) {
+  animation: none;
+}
+
+::view-transition-group(jamie-portrait) {
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(jamie-portrait),
+::view-transition-new(jamie-portrait) {
+  height: 100%;
+  border-radius: 50%;
+  mix-blend-mode: normal;
+  animation-duration: 300ms;
+}
+
+/* Astro runs fallback phases sequentially, so no incoming delay is needed. */
+[data-astro-transition-fallback="new"] main {
+  animation-delay: 0ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
+  [data-astro-transition-fallback] main {
+    animation: none !important;
+  }
 }

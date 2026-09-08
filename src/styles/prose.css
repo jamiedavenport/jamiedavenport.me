@@ -1,0 +1,32 @@
+@reference "@/styles/global.css";
+
+/* Tailwind Typography supplies the prose styles; these match the site's palette
+   and keep technical content comfortable to read. */
+.article-prose {
+  --tw-prose-body: var(--color-zinc-600);
+  --tw-prose-links: var(--color-zinc-800);
+  --tw-prose-bold: var(--color-zinc-800);
+  --tw-prose-quotes: var(--color-zinc-500);
+  --tw-prose-code: var(--color-zinc-800);
+  --tw-prose-captions: var(--color-zinc-500);
+
+  & :where(a):focus-visible {
+    outline: 2px solid var(--color-zinc-800);
+    outline-offset: 4px;
+  }
+
+  & :where(code)::before,
+  & :where(code)::after {
+    content: none;
+  }
+
+  & :not(pre) > code {
+    border-radius: var(--radius-sm);
+    background: --alpha(var(--color-zinc-950) / 5%);
+    padding: 0.15em 0.3em;
+  }
+
+  & :where(pre, table) {
+    overflow-wrap: normal;
+  }
+}

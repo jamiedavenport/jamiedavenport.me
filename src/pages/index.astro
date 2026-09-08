@@ -1,5 +1,9 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "@/layouts/Layout.astro";
+import Portrait from "@/components/Portrait.astro";
+import { formatDate, getPosts, postURL } from "@/lib/blog";
+
+const posts = await getPosts({ includeDrafts: import.meta.env.DEV });
 
 const productLinkClasses =
   "group inline-flex items-baseline gap-1.25 whitespace-nowrap";
@@ -12,14 +16,7 @@ const linkedInURL = "https://www.linkedin.com/in/jamie-davenport-uk/";
 <Layout editorial>
   <div class="flex min-h-dvh flex-col justify-center bg-[#fdfdfc] py-24 tracking-[-0.015em] max-sm:pt-12 max-sm:pb-16">
     <div class="mx-auto w-full max-w-xl px-6">
-      <img
-        class="size-28 rounded-full border border-zinc-950/15 object-contain"
-        src="/images/jamie.png"
-        alt="3D cartoon portrait of Jamie Davenport wearing a Doncaster Rovers shirt"
-        width="1254"
-        height="1254"
-        fetchpriority="high"
-      />
+      <Portrait />
 
       <div class="mt-9 grid gap-5 text-base/7 text-zinc-600 sm:text-sm/6.5 [&_a]:font-medium [&_a]:text-zinc-800 [&_a]:no-underline [&_a:hover]:text-zinc-950 [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-4 [&_a:focus-visible]:outline-zinc-800 [&_p]:text-pretty">
         <p>
@@ -80,6 +77,23 @@ const linkedInURL = "https://www.linkedin.com/in/jamie-davenport-uk/";
           You can find my code on <a target="_blank" rel="noopener noreferrer" href="https://github.com/jamiedavenport">GitHub</a>,
           or say hello on <a target="_blank" rel="noopener noreferrer" href={linkedInURL}>LinkedIn</a>.
         </p>
+      </div>
+      <div id="writing" class="scroll-mt-12 outline-none" tabindex="-1">
+        {posts.length > 0 && (
+          <ul class="mt-12 grid gap-5 text-base/7 sm:text-sm/6.5" role="list" aria-label="Writing">
+            {posts.map((post) => (
+              <li class="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-5">
+                <a
+                  class="min-w-0 font-medium wrap-anywhere text-zinc-800 no-underline hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-800"
+                  href={postURL(post.id)}
+                >{post.data.title}{post.data.draft && <span class="font-normal text-zinc-500"> (draft)</span>}</a>
+                <time class="text-right whitespace-nowrap text-zinc-500 tabular-nums" datetime={post.data.publishedAt.toISOString()}>
+                  {formatDate(post.data.publishedAt)}
+                </time>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   </div>
