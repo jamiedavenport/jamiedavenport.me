@@ -2,6 +2,11 @@
 
 Jamie Davenport’s personal site. Built with Astro and Tailwind CSS, managed with Bun, and deployed to Cloudflare Workers as static assets.
 
+The hand-written [More by Jamie snippet](readme-snippets/more-by-jamie.md) also
+supplies the shared README section in Sidequest, Capd, and PolicyStack. See
+[README synchronization](docs/readme-sync.md) for destination preparation,
+credentials, automatic updates, and manual retries.
+
 ## Setup
 
 Install [mise](https://mise.jdx.dev/getting-started.html), then run:

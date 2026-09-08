@@ -1,0 +1,70 @@
+name: Sync READMEs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - readme-snippets/**
+      - scripts/sync-readmes.ts
+      - .github/workflows/sync-readmes.yml
+      - mise.toml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-readmes
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DESTINATIONS: >-
+        ["jamiedavenport/sidequest", "jamiedavenport/capd", "jamiedavenport/policystack"]
+    steps:
+      - name: Check out latest source main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          path: source
+          token: ${{ github.token }}
+          persist-credentials: false
+
+      - name: Set up Bun and Node with mise
+        uses: jdx/mise-action@v3
+        with:
+          working_directory: source
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install Readme Weaver and verify CLI
+        run: |
+          python -m pip install readme-weaver==0.1.1
+          readme-weaver --help
+
+      - name: Synchronize destinations
+        id: sync
+        working-directory: source
+        env:
+          GH_TOKEN: ${{ secrets.README_SYNC_TOKEN }}
+          DIFF_DIRECTORY: ${{ runner.temp }}/readme-sync-diffs
+        run: bun scripts/sync-readmes.ts
+
+      - name: Save reviewable diffs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: readme-sync-diffs
+          path: ${{ runner.temp }}/readme-sync-diffs
+          if-no-files-found: ignore
+
+      - name: Report setup failure
+        if: failure() && steps.sync.outcome != 'failure'
+        run: echo 'README synchronization failed before completion; inspect the failed setup or artifact step.' >> "$GITHUB_STEP_SUMMARY"
