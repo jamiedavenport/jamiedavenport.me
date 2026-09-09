@@ -1,0 +1,23 @@
+---
+import { Code } from "astro:components";
+import ExtractionComparison from "./ExtractionComparison";
+import htomd from "./extractions/htomd.txt?raw";
+import trafilatura from "./extractions/trafilatura.txt?raw";
+import html2text from "./extractions/html2text.txt?raw";
+
+const codeProps = {
+  lang: "markdown",
+  theme: "github-light",
+  role: "region",
+  tabindex: 0,
+  class: "h-128 overflow-y-auto rounded-sm font-mono text-base/7 whitespace-pre-wrap focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-800 sm:text-sm/6 [&_code]:wrap-anywhere",
+} as const;
+
+// Astro removes one trailing newline; add one to preserve the exact raw output.
+---
+
+<ExtractionComparison client:visible>
+  <Code slot="htomd" code={htomd + "\n"} {...codeProps} aria-label="htomd Markdown" />
+  <Code slot="trafilatura" code={trafilatura + "\n"} {...codeProps} aria-label="trafilatura Markdown" />
+  <Code slot="html2text" code={html2text + "\n"} {...codeProps} aria-label="html2text Markdown" />
+</ExtractionComparison>

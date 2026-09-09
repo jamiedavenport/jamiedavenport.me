@@ -1,0 +1,56 @@
+---
+title: "Introducing htomd"
+description: "Markdown and metadata from messy HTML, in pure Python with no runtime dependencies."
+publishedAt: 2026-09-09
+draft: false
+ogImage:
+  src: "./og.png"
+  alt: "Introducing htomd. Markdown and metadata from messy HTML, in pure Python with no runtime dependencies. By Jamie Davenport, 9 September 2026."
+---
+
+import PerformanceBenchmark from "./PerformanceBenchmark.tsx";
+import ExtractionComparison from "./ExtractionComparison.astro";
+import ProductLink from "@/components/ProductLink.astro";
+
+I've released <ProductLink href="https://github.com/jamiedavenport/htomd" icon="/images/htomd.svg">htomd</ProductLink>, a small Python library for extracting Markdown and metadata from HTML. Give it a page and it tries to find the useful content, leaving the surrounding clutter behind.
+
+It works best with articles and documentation. It runs locally, needs Python 3.12 or newer, and has no runtime dependencies. You supply the HTML; htomd handles extraction.
+
+```sh
+python -m pip install htomd
+```
+
+The Python API has two entry points: `convert()` returns Markdown; `extract()` adds metadata and diagnostics.
+
+```python
+import htomd
+
+html = "<article><h1>Hello</h1><p>Readable text.</p></article>"
+print(htomd.convert(html))
+
+document = htomd.extract(html, url="https://example.com/article")
+print(document.metadata.title)
+```
+
+Metadata includes the title, author, description, language, publication time, and canonical URL when available. Diagnostics report which extraction strategy was used.
+
+There's also a command line interface for pipelines:
+
+```sh
+htomd convert < page.html > page.md
+htomd extract < page.html > page.json
+```
+
+Converting 115 saved pages took 1.260 seconds on an Apple M5 Max in the [benchmark](https://github.com/jamiedavenport/htomd/blob/a1b386586388c57980141e340aabe362d89f2bd7/tools/benchmark/results/macos-arm64.md).
+
+<PerformanceBenchmark client:visible />
+
+One use case is preparing web content for LLMs. Navigation, newsletter forms, and other clutter take up context without helping the model understand the article. htomd tries to keep the useful content and its structure, with metadata to track the source.
+
+In this example, htomd and trafilatura both remove the navigation and footer. htomd also preserves the article's links and hero image. Neither includes the title in the Markdown, so extraction quality still needs checking against the original page.
+
+<ExtractionComparison />
+
+Extraction can still miss content or retain clutter, and htomd doesn't execute JavaScript. Simple tables become Markdown tables; complex ones become row and cell text.
+
+htomd is MIT licensed. [Try it, read the source, or report a page it gets wrong](https://github.com/jamiedavenport/htomd).

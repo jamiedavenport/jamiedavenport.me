@@ -1,0 +1,74 @@
+{
+  "source": {
+    "url": "https://tailwindcss.com/blog/tailwind-is-joining-shopify",
+    "file": "tailwind-joining-shopify.html",
+    "sha256": "d2ae4f7a029995c630b5397e6d786b33060451127280a8674adb0bd7eac47266",
+    "bytes": 73566
+  },
+  "python": "3.14.7",
+  "convertedAt": "2026-09-09T21:36:44.805707+00:00",
+  "options": "defaults, except Markdown output for trafilatura; identical full supplied HTML; no preprocessing or source URL argument",
+  "selection": "Manual review for article retention, structure and removal of surrounding page clutter. This is a comparison of one page, not a general quality ranking.",
+  "outputs": {
+    "htomd": {
+      "tool": "htomd",
+      "version": "0.1.1",
+      "adapter": "htomd.convert(html)",
+      "output_sha256": "0cb314770ca27ec2d5fcf5e40454c2edd83e391f8e8cbf78eef9528ca3855d57",
+      "characters": 3168,
+      "lines": 25,
+      "displayed": true,
+      "review": "Preserves the full article body, headings, formatting, links and hero image; removes navigation and newsletter. Omits the article title and byline."
+    },
+    "trafilatura": {
+      "tool": "trafilatura",
+      "version": "2.2.0",
+      "adapter": "trafilatura.extract(html, output_format='markdown')",
+      "output_sha256": "2436d59b06058566a8dec1d4835c61b2090c9497d56ca76f496d7c108764b37e",
+      "characters": 2949,
+      "lines": 23,
+      "displayed": true,
+      "review": "Preserves the full article body, headings and formatting; removes navigation and newsletter. Default options omit links, images, article title and byline."
+    },
+    "html2text": {
+      "tool": "html2text",
+      "version": "2025.4.15",
+      "adapter": "html2text.html2text(html)",
+      "output_sha256": "fc254beafd98809d18975af3b13a770c749d73ae3f8dc7e0c137ed5309f7d3d4",
+      "characters": 4583,
+      "lines": 120,
+      "displayed": true,
+      "review": "Most compact remaining output; retains the article title and byline, but also navigation, newsletter and footer. Default wrapping splits some Markdown links."
+    },
+    "markdownify": {
+      "tool": "markdownify",
+      "version": "1.2.3",
+      "adapter": "markdownify.markdownify(html)",
+      "output_sha256": "449857948233f4e6e542b4ad8c0f663749d0b9e8d480ed0b28a7ef23666526f1",
+      "characters": 4717,
+      "lines": 89,
+      "displayed": false,
+      "review": "Retains article text, formatting and links, but also the document title, navigation, newsletter and footer."
+    },
+    "html-to-markdown": {
+      "tool": "html-to-markdown",
+      "version": "3.12.2",
+      "adapter": "html_to_markdown.convert(html).content",
+      "output_sha256": "41cfa27a0ab662dd14b8959ee99672dfafc232425d85eaa104bf301ca7d2bfcb",
+      "characters": 17412,
+      "lines": 111,
+      "displayed": false,
+      "review": "Retains article text and page clutter, including embedded image data."
+    },
+    "htmd-py": {
+      "tool": "htmd-py",
+      "version": "0.1.2",
+      "adapter": "htmd.convert_html(html)",
+      "output_sha256": "33d328a064207f1a5d28a1f2636bc105777c38f6825fad608e0a245ea8bd15e0",
+      "characters": 48370,
+      "lines": 132,
+      "displayed": false,
+      "review": "Retains article text and extensive page clutter, including embedded image data."
+    }
+  }
+}
