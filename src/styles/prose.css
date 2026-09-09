@@ -4,11 +4,19 @@
    and keep technical content comfortable to read. */
 .article-prose {
   --tw-prose-body: var(--color-zinc-600);
-  --tw-prose-links: var(--color-zinc-800);
+  --tw-prose-links: var(--color-blue-700);
   --tw-prose-bold: var(--color-zinc-800);
   --tw-prose-quotes: var(--color-zinc-500);
   --tw-prose-code: var(--color-zinc-800);
   --tw-prose-captions: var(--color-zinc-500);
+
+  & :where(a:not(.not-prose)) {
+    text-decoration: none;
+  }
+
+  & :where(a:not(.not-prose)):hover {
+    color: var(--color-blue-900);
+  }
 
   & :where(a):focus-visible {
     outline: 2px solid var(--color-zinc-800);

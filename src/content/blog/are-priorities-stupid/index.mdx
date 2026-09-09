@@ -1,0 +1,75 @@
+---
+title: "Are priorities stupid?"
+description: "Dates already capture importance. I'd rather use AI to review and replan my work than maintain priority labels."
+publishedAt: 2026-09-09
+draft: false
+---
+
+import ProductLink from "@/components/ProductLink.astro";
+import PriorityMapping from "./PriorityMapping.tsx";
+import PriorityThoughts from "./PriorityThoughts.tsx";
+import TaskChat from "./TaskChat.tsx";
+
+Priorities don't belong in a personal productivity system that supports dates. The date is what captures the importance. Something scheduled for today is higher priority than something without a date.
+
+High, medium, low. P1, P2, P3. Each asks me to make another decision about a task, then I have to keep that decision up to date. I'd rather decide when to do the work and get on with it.
+
+<PriorityThoughts client:visible />
+
+## Background
+
+I use my own productivity tool, <ProductLink href="https://github.com/jamiedavenport/sidequest" icon="/images/sidequest.svg" tilt="right">Sidequest</ProductLink>, the culmination of many decisions to make getting things done easier (for me). One of those decisions: no feature gets added until there's a burning need for it. After prolonged use, I've not missed priorities. So why are they such a standard feature?
+
+[Todoist has four priority levels](https://www.todoist.com/help/todoist/features/set-a-priority-in-todoist-Wy82Jp), and [TickTick includes an Eisenhower matrix](https://www.ticktick.com/features). The intention is to help you identify what deserves attention. A personal task list doesn't need that extra classification.
+
+I'm both the person choosing the work and the person doing it. A product manager recording priorities to communicate an order of work to a team is solving a different problem.
+
+## Dates already capture importance
+
+A task becomes more important as its date approaches. I enter the date once; time progresses, and I don't need to change anything. A priority label stays exactly as I left it until I remember to change it.
+
+High priority doesn't tell me whether something needs doing now or next week. Medium priority doesn't explain whether it comes before a task scheduled for today. The labels leave me with the same decisions about when to act, plus another field to maintain.
+
+Leaving everything high priority from the beginning is hardly better. A task can sit there for weeks, apparently demanding attention. I either learn to ignore the label or feel bad about it. My productivity system shouldn't give me another thing to feel behind on.
+
+David Allen makes a related argument in [Why ABC Priority Codes Don't Work](https://gettingthingsdone.com/2012/05/why-abc-priority-codes-dont-work/): circumstances change too quickly for fixed rankings to remain useful. He still considers priority when choosing what to do.
+
+Even Todoist's priority descriptions point towards scheduling: act immediately, schedule it, or leave it for later. Why stop halfway through that decision? Pick a day.
+
+Dates need maintenance too. Plans change, and an overdue list can become just as unpleasant as a list of permanently urgent tasks. But moving a date makes a new plan. Changing P2 to P1 still leaves me deciding when to do the work. Changing a date captures more information than changing a priority.
+
+## Not everything needs a date
+
+I'm happy to keep some things undated until I want to give them attention. That is a deliberate decision which implies that the task isn't very important. When it becomes important, it gets a date.
+
+The [Eisenhower matrix](https://www.todoist.com/productivity-methods/eisenhower-matrix) separates urgency from importance and recommends scheduling important work that isn't urgent. I agree with that action. Similarly, Leo Babauta's [Most Important Task approach](https://zenhabits.net/purpose-your-day-most-important-task/) deliberately makes room each day for a personal goal. Choosing a day to work on something already gives it that attention.
+
+## Skip low priority work
+
+If something takes substantial effort and matters very little to me, why keep it? A low-priority label can let me avoid admitting that I'm never going to do it.
+
+Delete it. Elimination is one of the Eisenhower matrix's most useful recommendations. My task list doesn't need to preserve every intention I've ever had.
+
+Enjoyment and learning count as value. I'm happy to spend time on a hobby or a long-term project. I'm questioning the obligations I don't enjoy, don't need, and don't expect much benefit from.
+
+Following the same principles gives me a simpler task list, without maintaining the matrix.
+
+<PriorityMapping client:visible />
+
+## Pick something and start
+
+When several tasks have the same date, I scan the list and start something. The choice depends on where I am, how much time I have, and what I feel capable of doing. I don't need to record that judgement before acting on it.
+
+Dates also narrow the list. I'm looking at the work planned for today, rather than comparing every task I've ever saved. If today's list is too large to be useful, I've put too much on it and need to replan.
+
+At the end of the day, I move unfinished work to suitable future dates and spread it out. I can do that manually or ask an assistant. I'm making a new plan for the work that remains.
+
+## AI does the heavy lifting
+
+An AI assistant connected to my task list can read tasks and update their dates. It can already translate between implicit priorities and dates.
+
+<TaskChat client:visible />
+
+I can talk about priorities without maintaining a priority field.
+
+Every extra field has to justify the attention it asks of me. Priorities still haven't earned their place.

@@ -1,14 +1,10 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Portrait from "@/components/Portrait.astro";
+import ProductLink from "@/components/ProductLink.astro";
 import { formatDate, getPosts, postURL } from "@/lib/blog";
 
 const posts = await getPosts({ includeDrafts: import.meta.env.DEV });
-
-const productLinkClasses =
-  "group inline-flex items-baseline gap-1.25 whitespace-nowrap";
-const productIconClasses =
-  "box-content size-4 shrink-0 self-center rounded border border-zinc-950/12 bg-white p-0.75 object-contain transition-transform duration-180 ease-in-out motion-safe:group-hover:-translate-y-px motion-safe:group-hover:rotate-0 motion-safe:group-focus-visible:-translate-y-px motion-safe:group-focus-visible:rotate-0 motion-reduce:rotate-0 motion-reduce:transition-none";
 
 const linkedInURL = "https://www.linkedin.com/in/jamie-davenport-uk/";
 ---
@@ -21,56 +17,21 @@ const linkedInURL = "https://www.linkedin.com/in/jamie-davenport-uk/";
       <div class="mt-9 grid gap-5 text-base/7 text-zinc-600 sm:text-sm/6.5 [&_a]:font-medium [&_a]:text-zinc-800 [&_a]:no-underline [&_a:hover]:text-zinc-950 [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-4 [&_a:focus-visible]:outline-zinc-800 [&_p]:text-pretty">
         <p>
           I’m Jamie, a software engineer based in London. Previously, I founded{" "}
-          <a
-            class={productLinkClasses}
-            href="https://www.uktech.news/saas/docbot-labs-pre-seed-20221102"
-            target="_blank"
-            rel="noopener noreferrer"
-            ><img class:list={[productIconClasses, "-rotate-6"]} src="/images/docbot.png" alt="" width="16" height="16" />
-            <span>Docbot Labs</span></a
-          >, a VC-backed startup helping engineering teams find and share knowledge.
+          <ProductLink href="https://www.uktech.news/saas/docbot-labs-pre-seed-20221102" icon="/images/docbot.png">Docbot Labs</ProductLink>, a VC-backed startup helping engineering teams find and share knowledge.
         </p>
         <p>
-          I run <a
-            class={productLinkClasses}
-            href="https://jxd.dev/"
-            target="_blank"
-            rel="noopener noreferrer"
-            ><img class:list={[productIconClasses, "-rotate-6"]} src="/images/jxd.svg" alt="" width="16" height="16" />
-            <span>JXD</span></a
-          >, a software consultancy working with early-stage startups and large
+          I run <ProductLink href="https://jxd.dev/" icon="/images/jxd.svg">JXD</ProductLink>, a software consultancy working with early-stage startups and large
           enterprises. We help teams turn ideas into products and build on what’s
           already working.
         </p>
         <p>
           I also build tools of my own.{" "}
-          <a
-            class={productLinkClasses}
-            href="https://github.com/jamiedavenport/policystack"
-            target="_blank"
-            rel="noopener noreferrer"
-            ><img class:list={[productIconClasses, "-rotate-6"]} src="/images/policystack.svg" alt="" width="16" height="16" />
-            <span>PolicyStack</span></a
-          > helps developers add privacy policies and cookie consent to their apps,
+          <ProductLink href="https://github.com/jamiedavenport/policystack" icon="/images/policystack.svg">PolicyStack</ProductLink> helps developers add privacy policies and cookie consent to their apps,
           with both driven by the same configuration.
         </p>
         <p>
-          <a
-            class={productLinkClasses}
-            href="https://github.com/jamiedavenport/sidequest"
-            target="_blank"
-            rel="noopener noreferrer"
-            ><img class:list={[productIconClasses, "rotate-6"]} src="/images/sidequest.svg" alt="" width="16" height="16" />
-            <span>Sidequest</span></a
-          > is a personal task manager designed with ADHD in mind. And{" "}
-          <a
-            class={productLinkClasses}
-            href="https://github.com/jamiedavenport/capd"
-            target="_blank"
-            rel="noopener noreferrer"
-            ><img class:list={[productIconClasses, "-rotate-6"]} src="/images/capd.svg" alt="" width="16" height="16" />
-            <span>Capd</span></a
-          > is a private Mac app for saving links, notes, and images, then finding
+          <ProductLink href="https://github.com/jamiedavenport/sidequest" icon="/images/sidequest.svg" tilt="right">Sidequest</ProductLink> is a personal task manager designed with ADHD in mind. And{" "}
+          <ProductLink href="https://github.com/jamiedavenport/capd" icon="/images/capd.svg">Capd</ProductLink> is a private Mac app for saving links, notes, and images, then finding
           them again when you need them.
         </p>
         <p>
