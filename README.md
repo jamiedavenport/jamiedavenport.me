@@ -131,7 +131,28 @@ Article metadata, canonical URLs, and `BlogPosting` structured data are generate
 from the collection. The official `@astrojs/sitemap` integration generates
 `/sitemap-index.xml` and `/sitemap-0.xml` from built pages; drafts and error pages
 are excluded. Publication and update dates are included in each article's
-metadata. Article social images are intentionally deferred.
+metadata.
+
+### Social images
+
+Use the [Paper blog OG template](https://app.paper.design/file/01M22S9Q2QMENESFCE2QVWRKVC)
+for article link previews. Duplicate the template artboard, replace the title and
+description layers, and keep each to two lines. Leave the portrait, website, and
+corner pattern in place. Export the 1200 × 630 artboard as PNG at 2× (2400 × 1260),
+then save it as `og.png` alongside the post's `index.mdx`.
+
+Add the optional image to the post's frontmatter:
+
+```yaml
+ogImage:
+  src: "./og.png"
+  alt: "The article title and description, followed by the author's name."
+```
+
+Write alt text that reflects the actual text in the exported image. Astro checks
+the local image and infers its dimensions. The page includes an absolute image
+URL in Open Graph, Twitter's large-image card, and `BlogPosting` structured data.
+Posts without `ogImage` keep text-only social metadata.
 
 Article formatting uses `@tailwindcss/typography` with a few site-specific
 overrides in `src/styles/prose.css`. Body typography matches the home page:

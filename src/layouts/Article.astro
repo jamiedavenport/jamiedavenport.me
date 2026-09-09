@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, description, publishedAt, updatedAt, draft } = post.data;
+const { title, description, publishedAt, updatedAt, draft, ogImage } = post.data;
 ---
 
 <Layout
@@ -20,6 +20,7 @@ const { title, description, publishedAt, updatedAt, draft } = post.data;
   description={description}
   canonicalPath={postURL(post.id)}
   noindex={draft}
+  ogImage={ogImage}
   article={{ title, publishedAt, updatedAt }}
 >
   <div class="py-16 tracking-[-0.015em] sm:py-24">

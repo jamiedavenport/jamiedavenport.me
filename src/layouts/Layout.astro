@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import type { ImageMetadata } from "astro";
 import { ClientRouter } from "astro:transitions";
 import { author } from "@/lib/site";
 
@@ -9,6 +10,10 @@ interface Props {
   editorial?: boolean;
   noindex?: boolean;
   canonicalPath?: string;
+  ogImage?: {
+    src: ImageMetadata;
+    alt: string;
+  };
   article?: {
     title: string;
     publishedAt: Date;
@@ -23,12 +28,26 @@ const {
   noindex = false,
   canonicalPath = Astro.url.pathname,
   article,
+  ogImage,
 } = Astro.props;
 
 const canonicalURL = new URL(canonicalPath, Astro.site);
 const homeURL = new URL("/", Astro.site).href;
 const portraitURL = new URL(author.portrait, Astro.site).href;
 const isHome = Astro.url.pathname === "/";
+const socialImage = ogImage ? {
+  url: new URL(ogImage.src.src, Astro.site).href,
+  type: `image/${ogImage.src.format === "jpg" ? "jpeg" : ogImage.src.format}`,
+  width: ogImage.src.width,
+  height: ogImage.src.height,
+  alt: ogImage.alt,
+} : isHome ? {
+  url: portraitURL,
+  type: "image/png",
+  width: 1254,
+  height: 1254,
+  alt: author.portraitAlt,
+} : undefined;
 const contentFade = {
   old: { name: "content-fade-out", duration: "140ms", easing: "ease-in", fillMode: "both" },
   new: { name: "content-fade-in", duration: "160ms", delay: "140ms", easing: "ease-out", fillMode: "both" },
@@ -60,6 +79,7 @@ const structuredData = {
       url: canonicalURL.href,
       headline: article.title,
       description,
+      ...(socialImage ? { image: socialImage.url } : {}),
       datePublished: article.publishedAt.toISOString(),
       dateModified: (article.updatedAt ?? article.publishedAt).toISOString(),
       inLanguage: "en-GB",
@@ -110,17 +130,21 @@ const structuredData = {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={canonicalURL} />
+        {socialImage && (
+          <>
+            <meta property="og:image" content={socialImage.url} />
+            <meta property="og:image:type" content={socialImage.type} />
+            <meta property="og:image:width" content={String(socialImage.width)} />
+            <meta property="og:image:height" content={String(socialImage.height)} />
+            <meta property="og:image:alt" content={socialImage.alt} />
+            <meta name="twitter:image" content={socialImage.url} />
+            <meta name="twitter:image:alt" content={socialImage.alt} />
+          </>
+        )}
         {isHome && (
           <>
-            <meta property="og:image" content={portraitURL} />
-            <meta property="og:image:type" content="image/png" />
-            <meta property="og:image:width" content="1254" />
-            <meta property="og:image:height" content="1254" />
-            <meta property="og:image:alt" content={author.portraitAlt} />
             <meta property="profile:first_name" content={author.givenName} />
             <meta property="profile:last_name" content={author.familyName} />
-            <meta name="twitter:image" content={portraitURL} />
-            <meta name="twitter:image:alt" content={author.portraitAlt} />
           </>
         )}
         {article && (
@@ -130,7 +154,7 @@ const structuredData = {
             {article.updatedAt && <meta property="article:modified_time" content={article.updatedAt.toISOString()} />}
           </>
         )}
-        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <script
