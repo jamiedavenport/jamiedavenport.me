@@ -24,7 +24,7 @@ jobs:
     timeout-minutes: 20
     env:
       DESTINATIONS: >-
-        ["jamiedavenport/sidequest", "jamiedavenport/capd", "jamiedavenport/policystack"]
+        ["jamiedavenport/sidequest", "jamiedavenport/capd", "jamiedavenport/policystack", "jamiedavenport/htomd"]
     steps:
       - name: Check out latest source main
         uses: actions/checkout@v5
