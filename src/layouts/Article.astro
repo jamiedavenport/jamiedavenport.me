@@ -52,8 +52,39 @@ const { title, description, publishedAt, updatedAt, draft, ogImage } = post.data
         <slot />
       </div>
       <div class="mt-14 text-base/7 text-zinc-500 sm:text-sm/6.5">
-        <a class="no-underline hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-800" href="/">Back home</a>
+        <a class="no-underline hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-800" href="/" data-escape-home aria-keyshortcuts="Escape">Back home</a>
       </div>
     </article>
   </div>
 </Layout>
+
+<script>
+  window.addEventListener("keydown", (event) => {
+    if (
+      event.key !== "Escape" ||
+      event.defaultPrevented ||
+      event.repeat ||
+      event.isComposing ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey ||
+      event.shiftKey
+    ) {
+      return;
+    }
+
+    const target = event.target;
+    if (target instanceof HTMLElement && (
+      target.isContentEditable || target.closest("input, textarea, select")
+    )) {
+      return;
+    }
+
+    // Look up the current page's link because this listener survives Astro navigation.
+    const homeLink = document.querySelector<HTMLAnchorElement>("[data-escape-home]");
+    if (homeLink) {
+      event.preventDefault();
+      homeLink.click();
+    }
+  });
+</script>
