@@ -10,51 +10,94 @@ const linkedInURL = "https://www.linkedin.com/in/jamie-davenport-uk/";
 ---
 
 <Layout editorial>
-  <div class="flex min-h-dvh flex-col justify-center bg-[#fdfdfc] py-24 tracking-[-0.015em] max-sm:pt-12 max-sm:pb-16">
+  <div
+    class="flex min-h-dvh flex-col justify-center bg-[#fdfdfc] py-24 tracking-[-0.015em] max-sm:pt-12 max-sm:pb-16"
+  >
     <div class="mx-auto w-full max-w-xl px-6">
       <Portrait />
 
-      <div class="mt-9 grid gap-5 text-base/7 text-zinc-600 sm:text-sm/6.5 [&_a]:font-medium [&_a]:text-zinc-800 [&_a]:no-underline [&_a:hover]:text-zinc-950 [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-4 [&_a:focus-visible]:outline-zinc-800 [&_p]:text-pretty">
+      <div
+        class="mt-9 grid gap-5 text-base/7 text-zinc-600 sm:text-sm/6.5 [&_a]:font-medium [&_a]:text-zinc-800 [&_a]:no-underline [&_a:hover]:text-zinc-950 [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-4 [&_a:focus-visible]:outline-zinc-800 [&_p]:text-pretty"
+      >
         <p>
-          I’m Jamie, a software engineer based in London. Previously, I founded{" "}
-          <ProductLink href="https://www.uktech.news/saas/docbot-labs-pre-seed-20221102" icon="/images/docbot.png">Docbot Labs</ProductLink>, a VC-backed startup helping engineering teams find and share knowledge.
+          I’m Jamie, a software engineer based in London. Previously, I founded{
+            " "
+          }
+          <ProductLink
+            href="https://www.uktech.news/saas/docbot-labs-pre-seed-20221102"
+            icon="/images/docbot.png">Docbot Labs</ProductLink
+          >, a VC-backed startup helping engineering teams find and share
+          knowledge.
         </p>
         <p>
-          I run <ProductLink href="https://jxd.dev/" icon="/images/jxd.svg">JXD</ProductLink>, a software consultancy working with early-stage startups and large
-          enterprises. We help teams turn ideas into products and build on what’s
-          already working.
+          I run <ProductLink href="https://jxd.dev/" icon="/images/jxd.svg"
+            >JXD</ProductLink
+          >, a software consultancy working with early-stage startups and large
+          enterprises. We help teams turn ideas into products and build on
+          what’s already working.
         </p>
         <p>
           I also build tools of my own.{" "}
-          <ProductLink href="https://github.com/jamiedavenport/policystack" icon="/images/policystack.svg">PolicyStack</ProductLink> helps developers add privacy policies and cookie consent to their apps,
+          <ProductLink
+            href="https://github.com/jamiedavenport/policystack"
+            icon="/images/policystack.svg">PolicyStack</ProductLink
+          > helps developers add privacy policies and cookie consent to their apps,
           with both driven by the same configuration.
         </p>
         <p>
-          <ProductLink href="https://github.com/jamiedavenport/sidequest" icon="/images/sidequest.svg" tilt="right">Sidequest</ProductLink> is a personal task manager designed with ADHD in mind. And{" "}
-          <ProductLink href="https://github.com/jamiedavenport/capd" icon="/images/capd.svg">Capd</ProductLink> is a private Mac app for saving links, notes, and images, then finding
+          <ProductLink
+            href="https://github.com/jamiedavenport/sidequest"
+            icon="/images/sidequest.svg"
+            tilt="right">Sidequest</ProductLink
+          > is a personal task manager designed with ADHD in mind. And{" "}
+          <ProductLink
+            href="https://github.com/jamiedavenport/capd"
+            icon="/images/capd.svg">Capd</ProductLink
+          > is a private Mac app for saving links, notes, and images, then finding
           them again when you need them.
         </p>
         <p>
-          You can find my code on <a target="_blank" rel="noopener noreferrer" href="https://github.com/jamiedavenport">GitHub</a>,
-          or say hello on <a target="_blank" rel="noopener noreferrer" href={linkedInURL}>LinkedIn</a>.
+          You can find my code on <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/jamiedavenport">GitHub</a
+          >, or say hello on <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={linkedInURL}>LinkedIn</a
+          >.
         </p>
       </div>
       <div id="writing" class="scroll-mt-12 outline-none" tabindex="-1">
-        {posts.length > 0 && (
-          <ul class="mt-12 grid gap-5 text-base/7 sm:text-sm/6.5" role="list" aria-label="Writing">
-            {posts.map((post) => (
-              <li class="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-5">
-                <a
-                  class="min-w-0 font-medium wrap-anywhere text-zinc-800 no-underline hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-800"
-                  href={postURL(post.id)}
-                >{post.data.title}{post.data.draft && <span class="font-normal text-zinc-500"> (draft)</span>}</a>
-                <time class="text-right whitespace-nowrap text-zinc-500 tabular-nums" datetime={post.data.publishedAt.toISOString()}>
-                  {formatDate(post.data.publishedAt)}
-                </time>
-              </li>
-            ))}
-          </ul>
-        )}
+        {
+          posts.length > 0 && (
+            <ul
+              class="mt-12 grid gap-1 text-base/7 sm:text-sm/6.5"
+              role="list"
+              aria-label="Writing"
+            >
+              {posts.map((post) => (
+                <li class="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-5">
+                  <a
+                    class="min-w-0 font-medium wrap-anywhere text-zinc-800 no-underline hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-800"
+                    href={postURL(post.id)}
+                  >
+                    {post.data.title}
+                    {post.data.draft && (
+                      <span class="font-normal text-zinc-500"> (draft)</span>
+                    )}
+                  </a>
+                  <time
+                    class="text-right whitespace-nowrap text-zinc-500 tabular-nums"
+                    datetime={post.data.publishedAt.toISOString()}
+                  >
+                    {formatDate(post.data.publishedAt)}
+                  </time>
+                </li>
+              ))}
+            </ul>
+          )
+        }
       </div>
     </div>
   </div>
