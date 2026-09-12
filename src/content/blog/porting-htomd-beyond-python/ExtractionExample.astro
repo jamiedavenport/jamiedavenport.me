@@ -1,0 +1,31 @@
+---
+import BenchmarkFigure from "../introducing-htomd/BenchmarkFigure";
+import CodeSnippet from "./CodeSnippet.astro";
+import LanguageLabel from "./LanguageLabel";
+import LanguageTabs from "./LanguageTabs";
+import python from "./snippets/extract.py?raw";
+import typescript from "./snippets/extract.ts?raw";
+import go from "./snippets/extract.go?raw";
+import rust from "./snippets/extract.rs?raw";
+import markdown from "../introducing-htomd/extractions/htomd.txt?raw";
+---
+
+<BenchmarkFigure
+  id="extraction-example"
+  label="Fetch the Tailwind article and convert its HTML to Markdown with htomd"
+>
+  <div class="grid gap-8 @3xl:grid-cols-2">
+    <LanguageTabs client:visible languages={["typescript", "python", "go", "rust"]} label="Choose an example language">
+      <CodeSnippet slot="typescript" code={typescript} lang="typescript" label="TypeScript source code" />
+      <CodeSnippet slot="python" code={python} lang="python" label="Python source code" />
+      <CodeSnippet slot="go" code={go} lang="go" label="Go source code" />
+      <CodeSnippet slot="rust" code={rust} lang="rust" label="Rust source code" />
+    </LanguageTabs>
+    <section aria-label="Markdown output" class="grid min-w-0 content-start gap-4">
+      <h3 class="flex h-12 items-center font-medium text-balance text-zinc-700">
+        <LanguageLabel language="Markdown" />
+      </h3>
+      <CodeSnippet code={markdown} lang="markdown" label="Markdown output" />
+    </section>
+  </div>
+</BenchmarkFigure>

@@ -1,0 +1,25 @@
+---
+import { Code } from "astro:components";
+
+interface Props {
+  code: string;
+  lang: "python" | "typescript" | "go" | "rust" | "markdown";
+  label: string;
+  class?: string;
+}
+
+const { code, lang, label, class: className } = Astro.props;
+---
+
+<Code
+  code={code + "\n"}
+  lang={lang}
+  theme="github-light"
+  role="region"
+  tabindex={0}
+  aria-label={label}
+  class:list={[
+    "h-144 min-w-0 overflow-auto rounded-sm p-3 font-mono whitespace-pre-wrap [tab-size:4] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-800 [&_code]:wrap-anywhere",
+    className,
+  ]}
+/>

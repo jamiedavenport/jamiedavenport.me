@@ -5,7 +5,12 @@
     "perf": "warn",
     "suspicious": "warn"
   },
-  "ignorePatterns": ["dist/**", ".astro/**", ".wrangler/**"],
+  "ignorePatterns": [
+    "dist/**",
+    ".astro/**",
+    ".wrangler/**",
+    "src/content/blog/porting-htomd-beyond-python/snippets/**"
+  ],
   "plugins": ["eslint", "typescript", "unicorn"],
   "rules": {
     "eslint/curly": ["error", "all"],

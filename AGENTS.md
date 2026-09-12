@@ -18,6 +18,10 @@ astro dev --background
 
 Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
+## Writing
+
+- Links to my products should use `ProductLink` and links to other blog posts should use `ArticleLink`.
+
 ## Documentation
 
 Full documentation: https://docs.astro.build

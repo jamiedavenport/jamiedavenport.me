@@ -1,0 +1,31 @@
+---
+import BenchmarkFigure from "../introducing-htomd/BenchmarkFigure";
+import CodeSnippet from "./CodeSnippet.astro";
+import LanguageLabel from "./LanguageLabel";
+import LanguageTabs from "./LanguageTabs";
+import python from "./snippets/conditional-clutter.py?raw";
+import typescript from "./snippets/conditional-clutter.ts?raw";
+import go from "./snippets/conditional-clutter.go?raw";
+import rust from "./snippets/conditional-clutter.rs?raw";
+
+// Exact functions from jamiedavenport/htomd at 4a00fe0c876eda089dc8201e0de997c64681521c.
+---
+
+<BenchmarkFigure
+  id="language-comparison"
+  label="Python clutter detection compared with its TypeScript, Go and Rust ports"
+>
+  <div class="grid gap-8 @3xl:grid-cols-2">
+    <section aria-label="Python reference" class="grid min-w-0 content-start gap-4">
+      <h3 class="flex h-12 items-center font-medium text-balance text-zinc-700">
+        <LanguageLabel language="Python" />
+      </h3>
+      <CodeSnippet code={python} lang="python" label="Python source code" />
+    </section>
+    <LanguageTabs client:visible languages={["typescript", "go", "rust"]} label="Choose a language port">
+      <CodeSnippet slot="typescript" code={typescript} lang="typescript" label="TypeScript source code" />
+      <CodeSnippet slot="go" code={go} lang="go" label="Go source code" />
+      <CodeSnippet slot="rust" code={rust} lang="rust" label="Rust source code" />
+    </LanguageTabs>
+  </div>
+</BenchmarkFigure>

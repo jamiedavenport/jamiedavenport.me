@@ -1,0 +1,89 @@
+---
+title: "Porting htomd beyond Python"
+description: "Porting htomd to TypeScript, Go and Rust, and building Shipwright to keep them in sync."
+publishedAt: 2026-09-12
+draft: false
+ogImage:
+  src: "./og.png"
+  alt: "Porting htomd beyond Python. Porting htomd to TypeScript, Go and Rust, and building Shipwright to keep them in sync. By Jamie Davenport, 12 September 2026."
+---
+
+import ProductLink from "@/components/ProductLink.astro";
+import ArticleLink from "@/components/ArticleLink.astro";
+import PortBenchmark from "./PortBenchmark.tsx";
+import LanguageComparison from "./LanguageComparison.astro";
+import ExtractionExample from "./ExtractionExample.astro";
+import LanguageLabel from "./LanguageLabel.tsx";
+
+Earlier this week I <ArticleLink href="/blog/introducing-htomd/">released htomd</ArticleLink>, a small Python library for extracting Markdown and metadata from HTML. I wanted clean page content to pass into LLMs, without navigation, newsletter forms and other clutter taking up context.
+
+You can now use <ProductLink href="https://github.com/jamiedavenport/htomd" icon="/images/htomd.svg">htomd</ProductLink> in <LanguageLabel language="Python" />, <LanguageLabel language="TypeScript" />, <LanguageLabel language="Go" /> and <LanguageLabel language="Rust" />. Each implementation runs in its own language, with the same extraction pipeline and shared tests. You supply the HTML; it returns the useful content.
+
+<ExtractionExample />
+
+htomd keeps the article's text, formatting, links and hero image, leaving the navigation and newsletter behind. `extract()` also returns metadata and diagnostics.
+
+The work also gave me a reason to start <ProductLink href="https://github.com/jamiedavenport/shipwright" icon="/images/shipwright.svg">Shipwright</ProductLink>, a set of agent skills and tools for creating and maintaining language ports. htomd is the first project I'm using it on.
+
+## Performance
+
+You'll probably use the version that matches the rest of your project. That's the main reason for the ports. Performance varies, but all four handled these 115 saved pages in around 1.3 seconds or less on an Apple M5 Max.
+
+<PortBenchmark client:visible />
+
+## One reference
+
+Python is the behavioural reference. I like it as a source language because it reads close to pseudocode: the steps are easy to follow, and there's little syntax getting in the way. The reference is also executable, so the ports can be checked against it.
+
+Before creating a port, the agent uses Shipwright's `sw-explore` skill to read the implementation, public APIs, tests and tooling. It maps what callers can observe and identifies where language differences might affect the result.
+
+The target skill then guides the implementation: `sw-ts`, `sw-go` or `sw-rust`. These cover types, error handling, dependencies, packaging and language-specific pitfalls. The instructions are small enough to [read directly](https://github.com/jamiedavenport/htomd/tree/8e6577da01b518f079b1797b462bd9c3f7a986c0/.agents/skills).
+
+All four implementations follow the same pipeline: parse HTML, read metadata, select useful content, refine the metadata and render Markdown. Their internal structures can differ.
+
+## Native code
+
+Here's `conditional_clutter`, which decides whether a block can be removed. A class name such as `sidebar` isn't enough: it also looks for evidence such as a high proportion of linked text or form controls.
+
+<LanguageComparison />
+
+Each port should feel natural to someone who writes that language. The goal is to preserve what the library does, with each implementation free to choose its own data structures, control flow and dependencies.
+
+## The awkward bits
+
+Some language differences are inevitable, for example in URL handling and parsing. We keep those native behaviours and record accepted differences in the [conformance fixtures](https://github.com/jamiedavenport/htomd/blob/8e6577da01b518f079b1797b462bd9c3f7a986c0/tests/fixtures/conformance.json), with an explanation and expected output for each.
+
+The goal is still to match the package's overall I/O behaviour. Shared tests enforce that contract, and unexpected differences fail.
+
+## Shipwright
+
+This is what ties the work together. A small configuration identifies the reference and its targets:
+
+```toml
+source = "python/src/htomd"
+targets = ["typescript", "go", "rust"]
+```
+
+One `shipwright build` command builds every package concurrently, using each language's existing tools. For htomd, that's `uv build`, `bun run build`, `go build` and `cargo build --release`.
+
+```sh
+shipwright build
+shipwright test
+shipwright lint
+shipwright format
+shipwright release
+```
+
+The test, lint and format commands follow the same pattern, running each package's native tools and reporting failures per package. `shipwright release --dry-run` prepares the packages for review; `shipwright release` publishes them to their respective registries.
+
+There's much more I want Shipwright to do: project setup, shared conformance checks, and potentially a dependency-mapping MCP server to help agents find suitable libraries in each language.
+
+It's still early days, but if this works, a library's original language could stop being a barrier to using it.
+
+## Keeping up
+
+The next test is maintaining these ports as htomd changes. Behaviour changes start in Python, then the agent can update each target and run the shared checks. Language-specific improvements need to survive those updates too.
+
+I'd like Shipwright to make that routine for other libraries. htomd gives me a concrete place to work out what that requires.
+
+The <ProductLink href="https://github.com/jamiedavenport/htomd" icon="/images/htomd.svg">htomd</ProductLink> source includes all four implementations, the skills and the tests. <ProductLink href="https://github.com/jamiedavenport/shipwright" icon="/images/shipwright.svg">Shipwright</ProductLink> is early, but you can read and use the build and release tooling today.
